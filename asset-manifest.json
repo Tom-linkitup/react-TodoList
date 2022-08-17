@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Tom-linkitup/react-TodoList/static/css/main.073c9b0a.css",
+    "main.js": "/Tom-linkitup/react-TodoList/static/js/main.d1148262.js",
+    "index.html": "/Tom-linkitup/react-TodoList/index.html",
+    "main.073c9b0a.css.map": "/Tom-linkitup/react-TodoList/static/css/main.073c9b0a.css.map",
+    "main.d1148262.js.map": "/Tom-linkitup/react-TodoList/static/js/main.d1148262.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.d1148262.js"
+  ]
+}
