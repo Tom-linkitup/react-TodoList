@@ -1,65 +1,88 @@
 import * as React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { useState } from "react";
 import "./App.css";
-import FAQ from "./FAQ"
+import "./all.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+const Input = (props) => {
 
-// not found
-function NotFound() {
+  const [content, setContent] = useState("");
+
+  const addTask = () => {
+    let task = {
+      content: content,
+      isCompleted: false 
+    }
+
+    props.setTaskList([task, ...props.taskList]);
+  }
+
   return (
     <>
-      <h2>Not Found</h2>
-      <Link to="/">Back to Home</Link>
+      <div className="inputBox">
+        <input type="text" placeholder="請輸入待辦事項" required="true" onChange={(e) => setContent(e.target.value)} />
+        <a href="#" onClick={addTask}>
+          <FontAwesomeIcon icon={['fa', 'plus']} />
+        </a>
+      </div>
     </>
   )
 }
 
+const TaskList = (props) => {
 
-
-// App.js
-function Home() {
   return (
     <>
-      <main>
-        <h2>Welcome to the homepage!</h2>
-        <p>You can do this, I believe in you.</p>
-      </main>
-      <nav>
-        <Link to="/about">About</Link>
-        <br/>
-        <Link to="/faq">FAQ</Link>
-      </nav>
+      {props.taskList.map((item) => (
+        <li key={item}>
+          <label className="todoList_label">
+            <input className="todoList_input" type="checkbox" value="true" checked={item.isCompleted ? true : false} />
+            <span>{item.content}</span>
+          </label>
+          <a href="#">
+            <FontAwesomeIcon icon={['fa', 'times']} />
+          </a>
+        </li>
+      ))}
     </>
-  );
-}
-
-function About() {
-  return (
-    <>
-      <main>
-        <h2>Who are we?</h2>
-        <p>
-          That feels like an existential question, don't you
-          think?
-        </p>
-      </main>
-      <nav>
-        <Link to="/">Home</Link>
-      </nav>
-    </>
-  );
+  )
 }
 
 function App() {
+
+  const [taskList, setTaskList] = useState([
+    { content: "go to shopping", isCompleted: false },
+    { content: "see doctor", isCompleted: true }
+  ]);
+
   return (
-    <div className="App">
-      <h1>Welcome to React Router!</h1>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="faq" element={<FAQ/>} />
-        <Route path="*" element={<NotFound/>} />
-      </Routes>
+    <div id="todoListPage" className="bg-half">
+        <nav>
+            <h1><a href="#">ONLINE TODO LIST</a></h1>
+        </nav>
+        <div className="container todoListPage vhContainer">
+            <div className="todoList_Content">
+                <Input taskList={taskList} setTaskList={setTaskList} />
+                <div className="todoList_list">
+                    <ul className="todoList_tab">
+                        <li><a href="#" id='all'>全部</a></li>
+                        <li><a href="#" id='pending'>待完成</a></li>
+                        <li><a href="#" id='completed'>已完成</a></li>
+                    </ul>
+                    <div className="todoList_items">
+                    <div>
+                        <ul className='todoList_item'>
+                          <TaskList taskList={taskList} />
+                        </ul>
+                        <div className="todoList_statistics">
+                          <p>個已完成項目</p>
+                          <a href="#">清除已完成項目</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   );
 }
