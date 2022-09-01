@@ -1,11 +1,8 @@
-import { useState, useRef, useEffect } from "react"
-import "./all.css"
+import { useState, useRef, useEffect } from "react";
+import "./all.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import executeGetTodo from './hooks/useGetTodo'
-import executeAddTodo from './hooks/useAddTodo'
 
-
-const App = () => {
+const Todo = () => {
     const inputRef = useRef("");
     const [input, setInput] = useState('');
     const [tab, setTab] = useState('');
@@ -15,27 +12,22 @@ const App = () => {
 
     const token = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MzIiLCJzY3AiOiJ1c2VyIiwiYXVkIjpudWxsLCJpYXQiOjE2NjIwMzk3MDksImV4cCI6MTY2MzMzNTcwOSwianRpIjoiMTVmOTE4ZWEtMmM0ZC00YmQwLWE5YjgtYTg0ZTE3NjE2OTZjIn0.cTu7IDIq3OLUW8s7a22OlC1O4Zn0i7qOKjW7bDDgbQo';
 
-    const init = async () => {
-      const apiTasks = await executeGetTodo(token);
-      setDbTask(apiTasks.todos);
-      setTasks(apiTasks.todos);
+    const init = async (token) => {
+        const API = "https://todoo.5xcamp.us/todos"
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+        }
+        const response = await fetch(API, requestOptions).catch(error=> { console.log(error) })
+        const responseJson = await response.json()
+        setDbTask(responseJson.todos);
+        setTasks(responseJson.todos);
     }
     // 首次渲染畫面
     useEffect(() => { init() }, []);
-
-    const addTask = async () => {
-      const response = await executeAddTodo(token, inputRef.current.value);
-      const newTask = {
-        content: response.content,
-        id: response.id,
-        completed_at: response.completed_at
-      }
-      inputRef.current.value = "";
-      setTasks([...tasks, newTask]);
-      setDbTask([...dbTask, newTask]);
-
-    }
-
 
     return (
         <div id="todoListPage" className="bg-half">
@@ -51,7 +43,7 @@ const App = () => {
                         </a>
                     </div>
                     <div className="todoList_list">
-                        <ul className="todoList_tab">
+                        <ul className="todoList_tab" onClick={handleTabs}>
                             <li><a href="#" className="active">全部</a></li>
                             <li><a href="#">待完成</a></li>
                             <li><a href="#">已完成</a></li>
@@ -83,4 +75,4 @@ const App = () => {
         </div>
     )
 }
-export default App;
+export default Todo;
