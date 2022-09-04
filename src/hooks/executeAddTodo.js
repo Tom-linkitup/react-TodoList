@@ -1,4 +1,4 @@
-const useAddTodo = async (token, content) => {
+const executeAddTodo = async (token, content) => {
     const API = `https://todoo.5xcamp.us/todos`
     const body = JSON.stringify({
         "todo": {
@@ -18,4 +18,4 @@ const useAddTodo = async (token, content) => {
     return responseJson
 }
 
-export default useAddTodo
+export default executeAddTodo

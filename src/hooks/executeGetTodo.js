@@ -1,4 +1,4 @@
-const useGetTodo = async (token) => {
+const executeGetTodo = async (token) => {
     const API = "https://todoo.5xcamp.us/todos"
     const request = {
         method: 'GET',
@@ -13,4 +13,4 @@ const useGetTodo = async (token) => {
     return data;
 }
 
-export default useGetTodo;
+export default executeGetTodo;
