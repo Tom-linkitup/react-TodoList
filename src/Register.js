@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Register = () => {
 
@@ -9,10 +10,13 @@ const Register = () => {
 
     return (
         <main className='signUpPage bg-half'>
+            <nav>
+                <h1><Link to="/">ONLINE TODO LIST</Link></h1>
+            </nav>
             <form className='formControls'>
-                <h2 className='formControls_txt'>註冊帳號</h2>
-                <label className='formControls_label' htmlFor="email">Email</label>
-                <input className='formControls_input' type="text" placeholder="請輸入 email"
+                <h2 className='formControls_txt'><FontAwesomeIcon icon={['fa', 'address-card']}/>註冊帳號</h2>
+                <label className='formControls_label' htmlFor="email"><FontAwesomeIcon icon={['fa', 'fa-envelope']}/>Email</label>
+                <input className='formControls_input' type="text" placeholder="email"
                     {...register("email",
                         {
                             required: {
@@ -26,11 +30,11 @@ const Register = () => {
                         }
                     )} />
                 <p>{errors.email?.message}</p>
-                <label className='formControls_label' htmlFor="name">您的暱稱</label>
-                <input className='formControls_input' type="text" placeholder="Nickname"
+                <label className='formControls_label' htmlFor="name"><FontAwesomeIcon icon={['fa', 'user']}/>您的暱稱</label>
+                <input className='formControls_input' type="text" placeholder="nickname"
                     {...register("nickname", {})} />
                 <p>{errors.Nickname?.message}</p>
-                <label className='formControls_label' htmlFor="pwd">密碼</label>
+                <label className='formControls_label' htmlFor="pwd"><FontAwesomeIcon icon={['fa', 'key']}/>密碼</label>
                 <input className='formControls_input' type="password" placeholder="password"
                     {...register("password",
                         {
@@ -45,8 +49,8 @@ const Register = () => {
                         }
                     )} />
                 <p>{errors.password?.message}</p>
-                <label className='formControls_label' htmlFor="pwd">再次輸入密碼</label>
-                <input className='formControls_input' type="password" placeholder="password"
+                <label className='formControls_label' htmlFor="pwd"><FontAwesomeIcon icon={['fa', 'key']}/>再次輸入密碼</label>
+                <input className='formControls_input' type="password" placeholder="re-enter password"
                     {...register("passwordConfirm",
                         {
                             required: {
@@ -66,7 +70,6 @@ const Register = () => {
                 <p>{errors.passwordConfirm?.message}</p>
                 <input className='formControls_btnSubmit' type="submit" value="註冊帳號" />
                 <br />
-                <Link to="/" className="back-btn">回首頁</Link>
             </form>
         </main>
     )
