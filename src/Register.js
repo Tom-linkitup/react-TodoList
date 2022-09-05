@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 const Register = () => {
 
     const navigate = useNavigate();
-    const { register, handleSubmit, watch , formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     return (
-        <main className='signUpPage'>
+        <main className='signUpPage bg-half'>
             <form className='formControls'>
                 <h2 className='formControls_txt'>註冊帳號</h2>
                 <label className='formControls_label' htmlFor="email">Email</label>
@@ -56,17 +56,17 @@ const Register = () => {
                             minLength: {
                                 value: 6,
                                 message: "密碼長度至少6位字元"
-                            },validate: (val) => {
+                            }, validate: (val) => {
                                 if (watch('password') !== val) {
-                                  return "密碼不一致";
+                                    return "密碼不一致";
                                 }
-                              }
+                            }
                         }
                     )} />
                 <p>{errors.passwordConfirm?.message}</p>
                 <input className='formControls_btnSubmit' type="submit" value="註冊帳號" />
                 <br />
-                <Link to="/">回首頁</Link>
+                <Link to="/" className="back-btn">回首頁</Link>
             </form>
         </main>
     )
