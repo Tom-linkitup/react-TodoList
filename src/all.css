@@ -327,16 +327,18 @@ nav ul a span {
 }
 
 .loginPage {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
-          justify-content: space-between;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 800px;
+  width: 100%;
+  height: 100vh;
 }
 
 @media (max-width: 576px) {
@@ -596,3 +598,5 @@ nav ul a span {
 .tab-content > div:last-child {
   display: none;
 }
+
+ /* Home */
