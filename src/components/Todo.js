@@ -1,29 +1,30 @@
 import { useState, useRef, useEffect } from "react"
-import "./all.css"
+import "../all.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import executeGetTodo from './hooks/executeGetTodo'
-import executeAddTodo from './hooks/executeAddTodo'
-import executeToggleTodo from './hooks/executeToggleTodo'
-import executeRemoveTodo from './hooks/executeRemoveTodo'
-import executeRemoveAllCompletedTodo from "./hooks/executeRemoveAllCompletedTodo"
+import useGetTodo from "../hooks/useGetTodo"
+import useAddTodo from '../hooks/useAddTodo'
+import useToggleTodo from '../hooks/useToggleTodo'
+import useRemoveTodo from '../hooks/useRemoveTodo'
+import useRemoveAllCompletedTodo from "../hooks/useRemoveAllCompletedTodo"
+import { useAuth } from "./Context"
 
 const Todo = () => {
+  const { token } = useAuth();
   const inputRef = useRef("");
   const [tab, setTab] = useState('');
   const [tasks, setTasks] = useState([]);
   // Api 取回的列表用於tab切換時
   const [dbTask, setDbTask] = useState([]);
 
-  const token = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4NzkiLCJzY3AiOiJ1c2VyIiwiYXVkIjpudWxsLCJpYXQiOjE2NjIzODg5NjIsImV4cCI6MTY2MzY4NDk2MiwianRpIjoiMjdiM2NkOGUtYjM0ZS00OGNjLWJlMjktODZjYTcyNDhjNDljIn0.ACO7odCjTFdgj0dYX6bBymI1taLFNp9jSsSrH5UXMe8';
-
   const init = async () => {
-    const apiTasks = await executeGetTodo(token);
+    const apiTasks = await useGetTodo(token);
     setDbTask(apiTasks.todos);
     setTasks(apiTasks.todos);
   }
 
-  const addTask = async () => {
-    const response = await executeAddTodo(token, inputRef.current.value);
+  const addTask = async (e) => {
+    e.preventDefault();
+    const response = await useAddTodo(token, inputRef.current.value);
     const newTask = {
       content: response.content,
       id: response.id,
@@ -37,7 +38,7 @@ const Todo = () => {
 
   const toggleTask = async (index, id) => {
     const newTasks = [...tasks];
-    const response = await executeToggleTodo(token, id);
+    const response = await useToggleTodo(token, id);
     newTasks[index].completed_at = response.completed_at;
     if (tab === "pending") {
       newTasks.splice(index, 1)
@@ -49,7 +50,7 @@ const Todo = () => {
 
   const removeTask = async (index, id) => {
     const newTasks = [...tasks];
-    executeRemoveTodo(token, id);
+    useRemoveTodo(token, id);
     newTasks.splice(index, 1);
     setTasks(newTasks);
     setDbTask(dbTask.filter(task => task.id !== id));
@@ -87,7 +88,7 @@ const Todo = () => {
       }
       return task.completed_at === null;
     })
-    executeRemoveAllCompletedTodo(token, completedTaskIds);
+    useRemoveAllCompletedTodo(token, completedTaskIds);
     setTasks(unCompletedTask);
     setDbTask(unCompletedTask);
   }

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Login = () => {
-    const { register, handleSubmit, formState: {errors} } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     return (
         <main className='loginPage bg-half'>
@@ -12,8 +12,8 @@ const Login = () => {
                 <h1><Link to="/">ONLINE TODO LIST</Link></h1>
             </nav>
             <form className='formControls'>
-                <h2 className='formControls_txt'><FontAwesomeIcon icon={['fa', 'address-card']}/>登入</h2>
-                <label className='formControls_label' htmlFor="email"><FontAwesomeIcon icon={['fa', 'fa-envelope']}/>Email</label>
+                <h2 className='formControls_txt'><FontAwesomeIcon icon={['fa', 'address-card']} />登入</h2>
+                <label className='formControls_label' htmlFor="email"><FontAwesomeIcon icon={['fa', 'fa-envelope']} />Email</label>
                 <input className='formControls_input' type="text" placeholder="email"
                     {...register("email",
                         {
@@ -28,7 +28,7 @@ const Login = () => {
                         }
                     )} />
                 <p>{errors.email?.message}</p>
-                <label className='formControls_label' htmlFor="pwd"><FontAwesomeIcon icon={['fa', 'key']}/>密碼</label>
+                <label className='formControls_label' htmlFor="pwd"><FontAwesomeIcon icon={['fa', 'key']} />密碼</label>
                 <input className='formControls_input' type="password" placeholder="password"
                     {...register("password",
                         {

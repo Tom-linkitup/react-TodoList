@@ -1,4 +1,4 @@
-const executeGetTodo = async (token) => {
+const useGetTodo = async (token) => {
     const API = "https://todoo.5xcamp.us/todos"
     const request = {
         method: 'GET',
@@ -7,10 +7,10 @@ const executeGetTodo = async (token) => {
             'Authorization': token
         },
     }
-    const response = await fetch(API, request).catch(error=> { console.log(error) })
+    const response = await fetch(API, request).catch(error => { console.log(error) })
     const data = await response.json()
-    
+
     return data;
 }
 
-export default executeGetTodo;
+export default useGetTodo;
