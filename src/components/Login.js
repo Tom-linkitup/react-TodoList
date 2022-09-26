@@ -7,7 +7,7 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     return (
-        <main className='loginPage bg-half'>
+        <main className='mainPage bg-half'>
             <nav>
                 <h1><Link to="/">ONLINE TODO LIST</Link></h1>
             </nav>

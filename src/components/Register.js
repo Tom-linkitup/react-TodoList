@@ -59,31 +59,35 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(REGISTER_URL, {
+    const body = JSON.stringify({
+      user: {
+        email: email,
+        nickname: user,
+        password: pwd
+      }
+    })
+    const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        user: {
-          email: email,
-          nickname: user,
-          password: pwd
-        }
-      })
-    })
-      .then(response => {
-        if (!response.ok) {
-          setErrMsg(response.json())
-          return;
-        }
-        setToken(response.headers.get('authorization'));
-        //navigate("/todo");
-      }).catch(error => console.log(error))
+      body
+    }
+    const response = await fetch(REGISTER_URL, requestOptions).catch(error => toast.error(error));
+    const responseJson = response.json();
+
+    if (!response.ok) {
+      toast.error(responseJson.message + responseJson.error);
+      return;
+    }
+    localStorage.setItem('token', response.headers.get('Authorization'))
+    localStorage.setItem('nickname', responseJson.nickname)
+    toast.success(responseJson.message)
+    //navigate("/todo");
   }
 
   return (
-    <main className="signUpPage bg-half">
+    <main className="mainPage bg-half">
       <nav>
         <h1>
           <Link to="/">ONLINE TODO LIST</Link>
