@@ -45,6 +45,13 @@ const Login = () => {
                 <p>{errors.password?.message}</p>
                 <input className='formControls_btnSubmit' type="submit" value="登入" />
                 <br />
+                <p>
+                <br />
+                    Not registered?<br />
+                    <span className="line">
+                        <Link to="/register">Register</Link>
+                    </span>
+                </p>
             </form>
         </main>
     )

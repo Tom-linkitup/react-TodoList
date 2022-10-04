@@ -365,6 +365,13 @@ nav ul a span {
   height: 100vh;
 }
 
+.mainPage img {
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 @media (max-width: 576px) {
   .mainPage {
     width: 100%;
@@ -596,27 +603,40 @@ nav ul a span {
   display: none;
 }
 
- /* Home */
- .container {
+/* Home */
+.container {
   display: block;
- }
-
- /* .pos-rel {
-  position: relative;
 }
 
-figure.left-panel {
+.intro {
   position: absolute;
-  right:0;
-} */
+  top: 55%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: #333333;
+}
+
+.panel {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.pos-rel {
+  margin-right: 20px;
+}
+
 figure.content-wrap {
   margin: 0;
   display: inline-block;
   margin-top: 15px;
 }
 .item figcaption {
-  width: 200px;
-  height: 150px;
+  width: 150px;
+  height: 120px;
   background-color: #cccc;
   border-radius: 10px;
   z-index: 0;
@@ -632,10 +652,10 @@ figure.content-wrap {
 }
 .item-title {
   text-align: center;
-  line-height: 150px;
+  line-height: 120px;
   color: #5c6bc0;
   font-family: arial,sans-serif;
-  font-size: 30px;
+  font-size: 18px;
 }
 
 .item:hover .item-title {

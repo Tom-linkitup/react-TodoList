@@ -83,7 +83,7 @@ const Register = () => {
     localStorage.setItem('token', response.headers.get('Authorization'))
     localStorage.setItem('nickname', responseJson.nickname)
     toast.success(responseJson.message)
-    //navigate("/todo");
+    navigate("/todo");
   }
 
   return (
@@ -200,7 +200,7 @@ const Register = () => {
           <br />
           Already registered?<br />
           <span className="line">
-            <Link to="login">Sign In</Link>
+            <Link to="/login">Sign In</Link>
           </span>
         </p>
       </form>
