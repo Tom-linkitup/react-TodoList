@@ -73,17 +73,20 @@ const Register = () => {
       },
       body
     }
-    const response = await fetch(REGISTER_URL, requestOptions).catch(error => toast.error(error));
-    const responseJson = response.json();
-
-    if (!response.ok) {
-      toast.error(responseJson.message + responseJson.error);
-      return;
-    }
-    localStorage.setItem('token', response.headers.get('Authorization'))
-    localStorage.setItem('nickname', responseJson.nickname)
-    toast.success(responseJson.message)
-    navigate("/todo");
+    await fetch(REGISTER_URL, requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        toast.error("Register Fail")
+        return;
+      }
+      setToken(res.headers.get('Authorization'));
+      localStorage.setItem('token', res.headers.get('Authorization'));
+      return res.json()  
+    }).then(resJson => {
+      localStorage.setItem('nickname', resJson.nickname);
+      navigate("/todo");
+    })
+    .catch(error => toast.error(error));
   }
 
   return (
