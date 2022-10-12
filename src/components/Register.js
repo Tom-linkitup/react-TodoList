@@ -4,7 +4,7 @@ import { useAuth } from './Context';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDeferredValue } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const EMAIL_REGEX = /^\S+@\S+$/;
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -73,24 +73,22 @@ const Register = () => {
       },
       body
     }
-    await fetch(REGISTER_URL, requestOptions)
-    .then(res => {
-      if (!res.ok) {
-        toast.error("Register Fail")
-        return;
-      }
-      setToken(res.headers.get('Authorization'));
-      localStorage.setItem('token', res.headers.get('Authorization'));
-      return res.json()  
-    }).then(resJson => {
-      localStorage.setItem('nickname', resJson.nickname);
-      navigate("/todo");
-    })
-    .catch(error => toast.error(error));
+    const res = await fetch(REGISTER_URL, requestOptions).catch(error => toast.error(error));
+    const resJson = await res.json();
+
+    if (!res.ok) {
+      toast.error(resJson.message + resJson.error);
+      return;
+    }
+    localStorage.setItem('nickname', resJson.nickname);
+    setToken(res.headers.get('Authorization'));
+    toast.success("Login Success");
+    navigate("/todo");
   }
 
   return (
     <main className="mainPage bg-half">
+      <div><Toaster /></div>
       <nav>
         <h1>
           <Link to="/">ONLINE TODO LIST</Link>
@@ -196,7 +194,7 @@ const Register = () => {
           <FontAwesomeIcon icon={faInfoCircle} />
           Must match the password input field.
         </p>
-        <button disabled={!validEmail || !validUser || !validPwd || !validMatch ? true : false}>
+        <button className="formControls_btnLink" disabled={!validEmail || !validUser || !validPwd || !validMatch ? true : false}>
           Register
         </button>
         <p>

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import "../all.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useNavigate, Link } from "react-router-dom"
 import useGetTodo from "../hooks/useGetTodo"
 import useAddTodo from '../hooks/useAddTodo'
 import useToggleTodo from '../hooks/useToggleTodo'
@@ -48,7 +49,8 @@ const Todo = () => {
     setTasks(newTasks);
   }
 
-  const removeTask = async (index, id) => {
+  const removeTask = async (e, index, id) => {
+    e.preventDefault();
     const newTasks = [...tasks];
     useRemoveTodo(token, id);
     newTasks.splice(index, 1);
@@ -80,7 +82,8 @@ const Todo = () => {
     tabs.forEach(tab => tab.classList.remove("active"));
   }
 
-  const handleClearAllCompleted = () => {
+  const handleClearAllCompleted = async (e) => {
+    e.preventDefault();
     const completedTaskIds = [];
     const unCompletedTask = dbTask.filter(task => {
       if (task.completed_at !== null) {
@@ -111,9 +114,9 @@ const Todo = () => {
           </div>
           <div className="todoList_list">
             <ul className="todoList_tab" onClick={handleTabs}>
-              <li><a href="#" id="all" className="active">全部</a></li>
-              <li><a href="#" id="pending">待完成</a></li>
-              <li><a href="#" id="completed">已完成</a></li>
+              <li><Link to="/todo" id="all" className="active">全部</Link></li>
+              <li><Link to="/todo" id="pending">待完成</Link></li>
+              <li><Link to="/todo" id="completed">已完成</Link></li>
             </ul>
             <div className="todoList_items">
               <div>
@@ -126,7 +129,7 @@ const Todo = () => {
                           checked={task.completed_at !== null ? true : false} />
                         <span>{task.content}</span>
                       </label>
-                      <a href="#" onClick={() => removeTask(index, task.id)}>
+                      <a href="#" onClick={(e) => removeTask(index, task.id)}>
                         <FontAwesomeIcon icon={['fa', 'times']} />
                       </a>
                     </li>
