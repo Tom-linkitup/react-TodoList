@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react"
 import "../all.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate, Link } from "react-router-dom"
-import useGetTodo from "../hooks/useGetTodo"
-import useAddTodo from '../hooks/useAddTodo'
-import useToggleTodo from '../hooks/useToggleTodo'
-import useRemoveTodo from '../hooks/useRemoveTodo'
-import useRemoveAllCompletedTodo from "../hooks/useRemoveAllCompletedTodo"
+import executeGetTodo from "../hooks/useGetTodo"
+import executeAddTodo from '../hooks/useAddTodo'
+import executeToggleTodo from '../hooks/useToggleTodo'
+import executeRemoveTodo from '../hooks/useRemoveTodo'
+import executeRemoveAllCompletedTodo from "../hooks/useRemoveAllCompletedTodo"
 import { useAuth } from "./Context"
 
 const Todo = () => {
@@ -18,14 +18,14 @@ const Todo = () => {
   const [dbTask, setDbTask] = useState([]);
 
   const init = async () => {
-    const apiTasks = await useGetTodo(token);
+    const apiTasks = await executeGetTodo(token);
     setDbTask(apiTasks.todos);
     setTasks(apiTasks.todos);
   }
 
   const addTask = async (e) => {
     e.preventDefault();
-    const response = await useAddTodo(token, inputRef.current.value);
+    const response = await executeAddTodo(token, inputRef.current.value);
     const newTask = {
       content: response.content,
       id: response.id,
@@ -39,7 +39,7 @@ const Todo = () => {
 
   const toggleTask = async (index, id) => {
     const newTasks = [...tasks];
-    const response = await useToggleTodo(token, id);
+    const response = await executeToggleTodo(token, id);
     newTasks[index].completed_at = response.completed_at;
     if (tab === "pending") {
       newTasks.splice(index, 1)
@@ -49,10 +49,9 @@ const Todo = () => {
     setTasks(newTasks);
   }
 
-  const removeTask = async (e, index, id) => {
-    e.preventDefault();
+  const removeTask = async (index, id) => {
     const newTasks = [...tasks];
-    useRemoveTodo(token, id);
+    executeRemoveTodo(token, id);
     newTasks.splice(index, 1);
     setTasks(newTasks);
     setDbTask(dbTask.filter(task => task.id !== id));
@@ -91,7 +90,7 @@ const Todo = () => {
       }
       return task.completed_at === null;
     })
-    useRemoveAllCompletedTodo(token, completedTaskIds);
+    executeRemoveAllCompletedTodo(token, completedTaskIds);
     setTasks(unCompletedTask);
     setDbTask(unCompletedTask);
   }
@@ -129,9 +128,9 @@ const Todo = () => {
                           checked={task.completed_at !== null ? true : false} />
                         <span>{task.content}</span>
                       </label>
-                      <a href="#" onClick={(e) => removeTask(index, task.id)}>
+                      <Link to="/todo" onClick={() => removeTask(index, task.id)}>
                         <FontAwesomeIcon icon={['fa', 'times']} />
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

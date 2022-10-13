@@ -30,18 +30,6 @@ const Home = () => {
                             </figure>
                         </Link>
                     </div>
-                    {
-                        localStorage.getItem('nickname') &&
-                        <div className="col-sm-6">
-                            <Link to="/todo" className="item">
-                                <figure className="content-wrap right-panel">
-                                    <figcaption>
-                                        <h3 className="item-title">Todo</h3>
-                                    </figcaption>
-                                </figure>
-                            </Link>
-                        </div>
-                    }
                 </div>
             </div>
         </main>
